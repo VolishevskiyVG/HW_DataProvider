@@ -19,6 +19,7 @@ public class TestValueSource extends TestBase {
     @Tag("Critical")
     void mvideoTest(String arg) {
         $(".input__field").setValue(arg).pressEnter();
+        $(".input__field").shouldHave(text(arg));
         //$(".tabs").shouldHave(text("Телевизоры"));
         // $("[name=minPrice]").setValue("7000");
         // $("[name=maxPrice]").setValue("10000");
