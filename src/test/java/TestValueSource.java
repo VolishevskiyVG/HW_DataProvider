@@ -1,28 +1,33 @@
 import com.codeborne.selenide.Selenide;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
-public class TestValueSource extends TestBase {
+public class TestValueSource {
+    @BeforeAll
+    static void setUp() {
+        open("https://store.steampowered.com/");
+        $$(".pulldown_desktop").find(text("Новое и примечательное")).click();
 
-    @ValueSource(strings = {"Телевизор", "Компьютер", "Телефон", "Приставка"})
+    }
 
-    @ParameterizedTest(name = "Проверка поисковой строки на сайте Мвидео ")
+
+    @ValueSource(strings = {
+            "Лидеры продаж",
+            "Самые популярные",
+            "Популярные новинки",
+            "Специальные предложения",
+            "Недавно обновлённые ",
+            "Популярные будущие продукты"})
+
+    @ParameterizedTest(name = "Отображение поля \"{0}\" в каталоге Новое и примечательное")
     @Tag("Critical")
-    void mvideoTest(String arg) {
-        $(".input__field").setValue(arg).pressEnter();
-        $(".input__field").shouldHave(text(arg));
-        //$(".tabs").shouldHave(text("Телевизоры"));
-        // $("[name=minPrice]").setValue("7000");
-        // $("[name=maxPrice]").setValue("10000");
+    void steamMenuNewTest(String arg) {
+        $$(".popup_menu_item").find(text(arg)).shouldHave(text(arg));
     }
 
 
